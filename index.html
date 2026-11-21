@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<meta name="referrer" content="no-referrer">
+<meta name="application-name" content="Salary & Purchasing Power">
+<meta name="description" content="Explore historical and projected salary purchasing power across countries with an interactive inflation and time value of money dashboard.">
+<title>Salary & Purchasing Power v6.2.1 | CPI status test build</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1220;--panel:#101d31;--tile:#17263b;--border:#2b3d55;--text:#f0f6ff;--muted:#9eafc6;--blue:#72a7ff;--teal:#35cfb7;--amber:#f9b85d;--red:#ff8d88;--surface:#0d1829}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top left,#142848 0%,var(--bg) 47%);font:14px/1.5 system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:var(--text);min-height:100vh}button,input,select{font:inherit}button,select,input{color:var(--text)}button{cursor:pointer;border:1px solid var(--border);background:var(--tile);border-radius:9px;padding:9px 13px}button:hover,button:focus-visible{border-color:var(--blue)}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--blue);outline-offset:2px}a{color:var(--blue)}.wrap{max-width:1280px;margin:0 auto;padding:28px 22px 50px}.brand{color:var(--teal);font-size:11px;font-weight:800;letter-spacing:.17em;text-transform:uppercase}.head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:22px}h1{margin:6px 0 3px;font-size:clamp(25px,3.5vw,38px);line-height:1.18;letter-spacing:-.04em}h2{margin:0 0 13px;font-size:16px;letter-spacing:-.015em}.sub,.muted{color:var(--muted)}.small{font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap}.primary{background:#20569c;border-color:#4387d5;font-weight:700}.status{border-radius:20px;border:1px solid var(--border);padding:6px 11px;font-size:11px;color:var(--muted);white-space:nowrap}.status.good{color:var(--teal)}.status.bad{color:var(--amber)}.layout{display:grid;grid-template-columns:310px minmax(0,1fr);gap:16px;align-items:start}.panel{background:rgba(16,29,49,.97);border:1px solid var(--border);border-radius:15px;padding:19px}.controls{display:grid;grid-template-columns:1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px;min-width:0}.field label{font-weight:700;font-size:10px;letter-spacing:.075em;color:var(--muted)}input,select{width:100%;background:var(--surface);border:1px solid var(--border);padding:10px 11px;border-radius:8px;min-width:0}.helper{font-size:11px;color:var(--muted)}.sectionLine{border-top:1px solid var(--border);margin:5px 0;padding-top:15px}.main{display:flex;flex-direction:column;gap:16px;min-width:0}.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.kpi{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:16px;min-width:0}.kpi .caption{font-size:11px;color:var(--muted);margin-bottom:7px}.kpi .value{font-size:clamp(18px,1.9vw,26px);font-weight:800;letter-spacing:-.045em;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.kpi .hint{color:var(--muted);font-size:11px;margin-top:4px}.good{color:var(--teal)}.bad{color:var(--red)}.panelTop{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.legend{display:flex;gap:17px;flex-wrap:wrap;color:var(--muted);font-size:11px;margin:9px 0 4px}.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px}.chartArea{position:relative;width:100%;touch-action:pan-y}.chartArea svg{display:block;width:100%;height:auto;min-height:230px}.chartNote{min-height:22px;text-align:center;color:var(--muted);font-size:12px}.scrub{display:flex;align-items:center;gap:11px;border-top:1px solid var(--border);padding-top:14px}.scrub input{padding:0;accent-color:var(--blue)}.scrub strong{width:40px;text-align:right}.tableScroll{overflow:auto;max-height:380px;margin-top:12px}table{border-collapse:collapse;width:100%;white-space:nowrap;font-size:12px}th,td{border-bottom:1px solid var(--border);padding:10px 12px;text-align:right;font-variant-numeric:tabular-nums}th{position:sticky;top:0;background:var(--panel);color:var(--muted);font-size:11px}th:first-child,td:first-child{text-align:left}tr.selected{background:#1c3859}tbody tr{cursor:pointer}tbody tr:hover{background:#24364e}.switch.active{background:#244d7f;border-color:var(--blue)}.comparison{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:12px}.comparison .figure{font-size:clamp(20px,2vw,28px);font-weight:800;letter-spacing:-.04em;overflow-wrap:anywhere}.barTrack{height:10px;background:var(--tile);border-radius:9px;overflow:hidden;margin:18px 0 10px}.barFill{height:100%;width:50%;background:var(--teal);border-radius:9px;transition:width .2s}.foot{font-size:12px;color:var(--muted);line-height:1.65}.foot p{margin:0 0 10px}.error{color:var(--amber)}.toggleRow{display:flex;gap:8px}.buttonRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:7px}.sr-only{position:absolute;clip:rect(0,0,0,0);width:1px;height:1px;overflow:hidden}.hidden{display:none!important}.yearTitle{font-size:11px;font-weight:750;color:var(--muted);letter-spacing:.07em;text-transform:uppercase}.riseGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}.riseMetric{border:1px solid var(--border);background:var(--surface);padding:12px;border-radius:10px}.riseMetric .label{font-size:11px;color:var(--muted)}.riseMetric .amount{font-size:clamp(17px,2vw,23px);font-weight:800;margin-top:4px;overflow-wrap:anywhere}.riseControls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;max-width:530px}.riseNote{border-left:3px solid var(--teal);padding:9px 12px;background:var(--surface);border-radius:0 7px 7px 0;margin-top:12px}.riseBadge{font-size:11px;color:var(--teal);font-weight:700}.riseActions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:13px}@media(max-width:630px){.riseGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:1050px){.layout{grid-template-columns:280px minmax(0,1fr)}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:730px){.wrap{padding:17px 12px 35px}.layout{grid-template-columns:1fr}.controls{grid-template-columns:repeat(2,minmax(0,1fr))}.sectionLine{grid-column:1/-1}.panel{padding:15px}.kpi{padding:13px}.kpis{gap:9px}.comparison{gap:12px}.head{margin-bottom:15px}}@media(max-width:410px){.controls{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}.kpi .value{font-size:18px}.comparison{grid-template-columns:1fr}}
+[hidden]{display:none!important}@media print{body{background:white;color:#111}.wrap{max-width:100%;padding:0}.layout{display:block}.controls,.actions,.scrub,#refreshBtn{display:none!important}.panel,.kpi{break-inside:avoid;border:1px solid #aaa;background:#fff;color:#111}.kpis{grid-template-columns:repeat(4,1fr)}.muted,.helper,.foot{color:#333}svg{max-height:320px}}
+
+.extraGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.mini{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:13px;min-width:0}.mini .k{font-size:11px;color:var(--muted)}.mini .v{font-size:clamp(17px,2.1vw,23px);font-weight:800;margin-top:5px;overflow-wrap:anywhere}.wideGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.eventPanel{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin:13px 0}.sep{border-top:1px solid var(--border);margin:17px 0 13px}.badge{display:inline-block;font-size:10px;letter-spacing:.08em;border:1px solid var(--border);border-radius:30px;padding:4px 9px;color:var(--teal)}.scenarioLegend{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0;color:var(--muted);font-size:12px}.scenarioLegend span:before{content:'';display:inline-block;width:11px;height:11px;background:var(--line);border-radius:3px;margin-right:6px}.note{background:var(--surface);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:10px 12px;font-size:12px;color:var(--muted)}@media(max-width:950px){.eventPanel{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.extraGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.wideGrid{grid-template-columns:1fr}.eventPanel{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.validationBanner{border:1px solid #f9b85d;background:#3a2b21;color:#ffcf86;border-radius:11px;padding:12px 15px;margin:0 0 17px;white-space:pre-line}.validationBanner[hidden]{display:none}.controlFlag{border-left:3px solid var(--amber);padding:9px 11px;background:#322b25;margin:12px 0;border-radius:3px 9px 9px 3px;color:#ffcf86;font-size:12px}.field input[aria-invalid="true"],.field select[aria-invalid="true"]{border-color:var(--red);outline:1px solid var(--red)}.statusControl{font-weight:700;letter-spacing:.03em}.statusControl.good{color:var(--teal)}.statusControl.bad{color:var(--red)}.statusControl.warn{color:var(--amber)}@media(max-width:730px){#assumptionToggle{display:inline-flex;white-space:nowrap;padding:8px 12px;font-size:12px}#assumptionsContent:not([hidden]){padding-top:4px}}
+</style>
+</head>
+<body>
+<noscript><p style="padding:20px;background:#3a2b21;color:#fff">JavaScript is required for the interactive dashboard. Please enable JavaScript in your browser.</p></noscript>
+<div class="wrap"><div id="validationBanner" class="validationBanner" role="alert" hidden></div>
+ <header class="head">
+  <div><div class="brand">Earnings intelligence / interactive · v6.2.1 RC</div><h1>Salary & Purchasing Power</h1><div class="sub">Historical inflation · Take-home pay · Career progression · Future scenarios</div></div>
+  <div class="actions"><span class="status" id="status" role="status" aria-live="polite">Loading historical CPI…</span><button class="primary" id="share">Share scenario</button><button id="csv">Export CSV</button><button id="reset">Reset</button></div>
+ </header>
+ <div class="layout">
+  <aside class="panel" aria-label="Dashboard assumptions">
+   <div class="panelTop"><h2 style="margin:0">Model assumptions</h2><button id="assumptionToggle" type="button" aria-controls="assumptionsContent" aria-expanded="true" hidden>Show controls</button></div>
+   <div class="controls" id="assumptionsContent" style="margin-top:13px">
+    <div class="field"><label for="country">COUNTRY / CURRENCY</label><select id="country"><option value="NZL">New Zealand · NZD</option><option value="AUS">Australia · AUD</option><option value="USA">United States · USD</option><option value="GBR">United Kingdom · GBP</option><option value="IND">India · INR</option><option value="CAN">Canada · CAD</option><option value="SGP">Singapore · SGD</option><option value="JPN">Japan · JPY</option><option value="DEU">Germany · EUR</option><option value="FRA">France · EUR</option><option value="CHE">Switzerland · CHF</option><option value="ZAF">South Africa · ZAR</option><option value="ARE">United Arab Emirates · AED</option><option value="MYS">Malaysia · MYR</option></select></div>
+    <div class="field"><label for="salary">BASE ANNUAL SALARY</label><input id="salary" type="number" min="0" max="1000000000" step="5000" value="100000"></div>
+    <div class="field"><label for="base">SALARY BASE YEAR</label><select id="base"></select></div>
+    <div class="field"><label for="year">COMPARISON YEAR</label><select id="year"></select></div>
+    <div class="sectionLine"><div class="yearTitle">Forecast & valuation</div></div>
+    <div class="field"><label for="growth">ANNUAL SALARY GROWTH (%)</label><input id="growth" type="number" min="-20" max="40" step="0.5" value="0"></div>
+    <div class="field"><label for="inflation">ASSUMED INFLATION (%)</label><input id="inflation" type="number" min="-10" max="50" step="0.25" value="3"><div class="helper">Used for future years. Missing historical rates use this assumption only in Illustrative mode; Strict mode suppresses affected comparisons.</div></div>
+    <div class="field"><label for="discount">DISCOUNT RATE (%)</label><input id="discount" type="number" min="0" max="40" step="0.5" value="5"></div>
+    <div class="field"><label for="end">CHART END YEAR</label><select id="end"></select><div class="helper">If you move the base year beyond this year, the chart end is automatically advanced to the new base year.</div></div>
+    <div class="sectionLine"><div class="yearTitle">Sharing & privacy</div><div class="field" style="margin-top:10px"><label for="shareMode">SHARE LINK CONTENT</label><select id="shareMode"><option value="sample">Sample data only (privacy-safe default)</option><option value="personal">Include my entered financial values (requires confirmation)</option></select><div class="helper">Shared links are encoded in the URL fragment (not sent to a web server), but anyone with the link can inspect the values; links may remain in browser history. CSV files contain your entered figures.</div></div></div><div class="sectionLine"><div class="yearTitle">Historical dataset</div><p class="helper">World Bank consumer-price inflation (annual %). Values are retrieved live when available.</p><button id="refreshBtn">↻ Refresh World Bank CPI</button><div class="field" style="max-width:380px;margin-top:12px"><label for="historicalPolicy">MISSING HISTORICAL CPI CONTROL</label><select id="historicalPolicy"><option value="strict">Strict: suppress unverified purchasing power</option><option value="illustrative">Illustrative: fill missing CPI using assumption</option></select></div><div class="helper" id="dataDetails" style="margin-top:9px" aria-live="polite"></div><div class="controlFlag" id="provenanceControl" aria-live="polite">CPI classification pending</div><p class="note" id="cpiWarning" role="status" style="margin-top:10px"></p></div>
+   </div>
+  </aside>
+  <main class="main">
+   <div class="kpis" aria-label="Salary indicators">
+    <div class="kpi"><div class="caption">Nominal salary · <span id="kYear1">2026</span></div><div class="value" id="nominal">—</div><div class="hint">Projected annual earnings</div></div>
+    <div class="kpi"><div class="caption">Real salary · <span id="kYear2">2026</span></div><div class="value" id="real">—</div><div class="hint">In base-year purchasing power</div></div>
+    <div class="kpi"><div class="caption">Real earning-power change</div><div class="value" id="change">—</div><div class="hint">Relative to base salary</div></div>
+    <div class="kpi"><div class="caption">Discounted salary value</div><div class="value" id="pv">—</div><div class="hint">PV of one selected year's salary</div></div>
+   </div>
+   <section class="panel">
+    <div class="panelTop"><div><h2 style="margin-bottom:2px">Nominal salary vs real purchasing power</h2><div class="small muted" id="chartSubtitle"></div></div><div class="toggleRow"><button class="switch active" id="chartMode" aria-pressed="true">Chart</button><button class="switch" id="tableMode" aria-pressed="false">Data</button></div></div>
+    <div class="legend"><span><i style="background:var(--blue)"></i>Nominal salary · columns</span><span><i style="background:var(--teal)"></i>Real salary · line</span><span><i style="background:var(--amber)"></i>Selected year</span></div>
+    <div id="chartPanel"><div class="chartArea"><svg id="chart" viewBox="0 0 760 350" role="img" aria-label="Annual nominal salary in columns and inflation-adjusted real salary as a line"></svg></div><div class="chartNote" id="hover">Hover over the chart to inspect annual values.</div></div>
+    <div class="tableScroll hidden" id="tablePanel"><table><thead><tr><th>Year</th><th>Nominal salary</th><th>Real salary</th><th>Annual CPI</th><th>Data type</th><th>Cumulative CPI provenance</th></tr></thead><tbody id="rows"></tbody></table><p class="helper">Annual CPI reports the rate for each calendar year, including the base year. Cumulative inflation uses the relevant years between the selected comparison and base year.</p></div>
+    <div class="scrub"><span class="small muted">Inspect year</span><input type="range" id="slider" min="1990" max="2060" value="2026" aria-label="Inspect comparison year"><strong id="sliderText">2026</strong></div>
+   </section>
+   <section class="panel" id="payRiseSection" aria-label="Pay rise and inflation calculator">
+    <div class="panelTop"><div><h2 style="margin-bottom:3px">Pay rise vs inflation</h2><div class="small muted">See how much of a proposed annual pay rise translates into real earning power.</div></div><span class="riseBadge">NEW · PAY REVIEW</span></div>
+    <div class="riseControls" style="margin-top:16px">
+      <div class="field"><label for="raise">PROPOSED PAY RISE (%)</label><input id="raise" type="number" min="-20" max="100" step="0.5" value="4"></div>
+      <div class="field"><label for="riseInflation">INFLATION BENCHMARK (%)</label><input id="riseInflation" type="number" min="-10" max="50" step="0.25" value="3"><div class="helper">Editable annual assumption, not a claimed country CPI figure.</div></div>
+    </div>
+    <div class="riseGrid" aria-live="polite">
+      <div class="riseMetric"><div class="label">Current annual salary</div><div class="amount" id="riseCurrent">—</div></div>
+      <div class="riseMetric"><div class="label">Salary after pay rise</div><div class="amount" id="riseNew">—</div></div>
+      <div class="riseMetric"><div class="label">Annual increase (gross)</div><div class="amount" id="riseAnnual">—</div></div>
+      <div class="riseMetric"><div class="label">Monthly increase (gross)</div><div class="amount" id="riseMonthly">—</div></div>
+      <div class="riseMetric"><div class="label">Fortnightly increase (gross)</div><div class="amount" id="riseFortnightly">—</div></div>
+      <div class="riseMetric"><div class="label">Real pay rise</div><div class="amount" id="riseReal">—</div></div>
+    </div>
+    <div class="riseNote small" id="riseMessage"></div>
+    <div class="riseActions"><button class="primary" id="applyRaise">Use pay rise as annual salary growth ↗</button><span class="small muted">Updates the full salary projection and chart only if recurring growth is within −20% to +40%.</span></div><p id="applyRaiseNotice" role="status" class="helper"></p>
+   </section>
+   <section class="panel" id="taxSection" aria-label="Estimated take-home pay">
+    <div class="panelTop"><div><h2 style="margin-bottom:3px">Take-home pay calculator</h2><div class="small muted">Compare current and post-pay-rise net earnings, with country-aware estimates.</div></div><span class="badge">NET PAY</span></div>
+    <div class="wideGrid" style="margin:14px 0">
+      <div class="field"><label for="taxYear">TAX RULE SNAPSHOT</label><select id="taxYear"><option value="2026-27">2026–27 only (NZ/AU)</option></select><div class="helper">Historical tax rules and future tax changes are NOT modelled.</div></div><div class="field"><label for="taxSalary">GROSS SALARY FOR TAX ESTIMATE</label><input id="taxSalary" type="number" min="0" max="1000000000" step="1000" value="100000"><div class="helper">Independent of base-year salary. Enter a salary to evaluate under the 2026–27 tax snapshot.</div></div><div class="field"><label for="taxMode">TAX ESTIMATION METHOD</label><select id="taxMode"><option value="auto">Country rules where supported</option><option value="custom">Custom effective tax rate</option></select></div>
+      <div class="field"><label for="taxRate">CUSTOM EFFECTIVE TAX RATE (%)</label><input id="taxRate" type="number" min="0" max="70" step="0.5" value="25"><div class="helper">Used for all other countries or when custom mode is selected.</div></div>
+    </div>
+    <div class="eventPanel" style="margin-top:10px">
+     <div class="field"><label for="ietcEligible">NZ INDEPENDENT EARNER TAX CREDIT (IETC)</label><select id="ietcEligible"><option value="no">No / eligibility not confirmed (default)</option><option value="yes">Yes — eligible for full-year IETC</option></select><div class="helper">Eligible residents on NZ$24,000–70,000 may receive up to NZ$520. Income and circumstances determine eligibility. Confirm via IRD; never assume eligibility.</div></div>
+     <div class="field"><label for="medicareThreshold">AU SINGLE MEDICARE LEVY THRESHOLD (AUD)</label><input id="medicareThreshold" type="number" min="0" max="100000" step="1" value="28011"><div class="helper">Published 2025–26 lower threshold used only as an editable 2026–27 proxy. Not confirmed as the 2026–27 rate. Enter the updated threshold when published.</div></div>
+     <div class="field"><label for="retirementRate">EMPLOYEE RETIREMENT / KIWISAVER (%)</label><input id="retirementRate" type="number" min="0" max="30" step="0.5" value="0"><div class="helper">Defaults to 0% because not everyone is a scheme member. NZ KiwiSaver members generally use 3.5% in 2026–27 unless a valid lower-rate arrangement applies.</div></div>
+     <div class="field"><label for="studentLoan">NZ STUDENT LOAN</label><select id="studentLoan"><option value="no">No</option><option value="yes">Yes – 12% over threshold</option></select></div>
+     <div class="field"><label for="medicareBasis">AU MEDICARE TREATMENT</label><select id="medicareBasis"><option value="single">Single resident, no dependants (threshold)</option><option value="manual">Flat user-specified levy (other cases)</option></select><div class="helper">Single-person levy is an estimate using the editable published 2025–26 threshold as a 2026–27 proxy. Family and exemption cases require a manual rate.</div></div><div class="field"><label for="medicareRate">AU MEDICARE LEVY ASSUMPTION (%)</label><input id="medicareRate" type="number" min="0" max="5" step="0.1" value="2"><div class="helper">Applies when manual mode is selected; single-resident mode applies the legislated low-income reduction.</div></div>
+     <div class="field"><label for="otherDeductions">OTHER ANNUAL PAYROLL DEDUCTIONS</label><input id="otherDeductions" type="number" min="0" max="10000000" step="100" value="0"><div class="helper">Enter annual HELP, repayments or other post-tax deductions manually.</div></div>
+    </div>
+    <div class="extraGrid" aria-live="polite">
+      <div class="mini"><div class="k">Current gross annual</div><div class="v" id="taxGross">—</div></div>
+      <div class="mini"><div class="k">Estimated income tax & levies</div><div class="v" id="taxDeduct">—</div></div>
+      <div class="mini"><div class="k">Estimated annual net pay</div><div class="v" id="taxNet">—</div></div>
+      <div class="mini"><div class="k">Monthly net pay</div><div class="v" id="taxMonth">—</div></div>
+      <div class="mini"><div class="k">New annual net after pay rise</div><div class="v" id="taxNewNet">—</div></div>
+      <div class="mini"><div class="k">Monthly take-home increase</div><div class="v" id="taxIncrease">—</div></div>
+    </div>
+    <div class="controlFlag" id="taxValidation" role="status">Tax reconciliation pending</div><div class="tableScroll" style="margin-top:14px;max-height:none"><table><thead><tr><th>Take-home reconciliation</th><th>Current salary</th><th>After pay rise</th></tr></thead><tbody id="taxBreakdown"></tbody></table></div>
+    <p class="note" id="taxNote" style="margin:13px 0 0"></p>
+   </section>
+   <section class="panel" id="careerSection" aria-label="Career salary progression">
+    <p class="helper">Career events apply only after the salary base year. Comparisons before the base year use ordinary compound growth without promotions, freezes or adjustments.</p>
+    <div class="panelTop"><div><h2 style="margin-bottom:3px">Career salary progression</h2><div class="small muted">Model the salary effects of promotion, pay freeze, bonus and a permanent one-off adjustment.</div></div><span class="badge">CAREER PATH</span></div>
+    <div class="eventPanel">
+      <div class="field"><label for="promotionYear">PROMOTION YEAR</label><select id="promotionYear"></select></div>
+      <div class="field"><label for="promotionPct">PROMOTION INCREASE (%)</label><input id="promotionPct" type="number" min="0" max="200" step="0.5" value="10"></div>
+      <div class="field"><label for="freezeYear">SALARY FREEZE YEAR</label><select id="freezeYear"></select></div>
+      <div class="field"><label for="bonusPct">ANNUAL BONUS (% OF SALARY)</label><input id="bonusPct" type="number" min="0" max="100" step="0.5" value="0"></div>
+      <div class="field"><label for="oneoffYear">ONE-OFF ADJUSTMENT YEAR</label><select id="oneoffYear"></select></div>
+      <div class="field"><label for="oneoffAmount">PERMANENT SALARY ADJUSTMENT</label><input id="oneoffAmount" type="number" min="-100000000" max="100000000" step="1000" value="0"></div>
+      <div class="field"><label for="careerEnabled">CAREER EVENTS</label><select id="careerEnabled"><option value="yes">Apply to salary projection</option><option value="no">Ignore career events</option></select></div>
+      <div class="field"><label for="careerViewYear">CAREER SUMMARY YEAR</label><select id="careerViewYear"></select></div>
+    </div>
+    <div class="extraGrid"><div class="mini"><div class="k">Selected-year base salary</div><div class="v" id="careerSalary">—</div></div><div class="mini"><div class="k">Annual bonus</div><div class="v" id="careerBonus">—</div></div><div class="mini"><div class="k">Total annual gross earnings</div><div class="v" id="careerTotal">—</div></div></div>
+    <p class="small muted">A freeze suspends ordinary growth for its selected year; a promotion increases recurring base salary. A one-off adjustment changes recurring salary once, while bonuses are non-compounding annual payments. Event years must be after the salary base year to take effect.</p>
+   </section>
+   <section class="panel" id="targetSection" aria-label="Target salary planner">
+    <div class="panelTop"><div><h2 style="margin-bottom:3px">Target salary planner</h2><div class="small muted">Calculate the compounded annual increase required to reach a future salary goal.</div></div><span class="badge">GOAL PLANNER</span></div>
+    <div class="wideGrid" style="margin:14px 0"><div class="field"><label for="targetSalary">TARGET ANNUAL BASE SALARY</label><input id="targetSalary" type="number" min="0" max="1000000000" step="5000" value="200000"></div><div class="field"><label for="targetYear">TARGET YEAR</label><select id="targetYear"></select></div></div>
+    <div class="extraGrid"><div class="mini"><div class="k">Required annual salary growth</div><div class="v" id="targetGrowth">—</div></div><div class="mini"><div class="k">Projected salary under your plan</div><div class="v" id="targetActual">—</div></div><div class="mini"><div class="k">Target less projected salary</div><div class="v" id="targetGap">—</div></div></div>
+    <p class="note" id="targetNote" style="margin:13px 0 0"></p><p class="helper" id="targetBasis">Target uses main career-event setting.</p>
+   </section>
+   <section class="panel" id="scenarioSection" aria-label="Pay rise scenario comparison">
+    <div class="panelTop"><div><h2 style="margin-bottom:3px">Pay rise scenario comparison</h2><div class="small muted">Four alternative annual-growth paths starting at the base salary year.</div></div><span class="badge">WHAT-IF ANALYSIS</span></div>
+    <div class="wideGrid" style="margin:13px 0"><div class="field"><label for="scenarioEvents">INCLUDE CAREER EVENTS IN COMPARISON?</label><select id="scenarioEvents"><option value="no">No – pure annual growth (default)</option><option value="yes">Yes – same events in every path</option></select></div><div class="field"><label for="scenarioCustom">CUSTOM ANNUAL GROWTH (%)</label><input id="scenarioCustom" type="number" min="-20" max="40" step="0.5" value="4"></div><div class="field"><label for="scenarioView">SCENARIO VALUE TYPE</label><select id="scenarioView"><option value="nominal">Nominal salary</option><option value="real">Inflation-adjusted salary</option></select></div></div>
+    <div class="scenarioLegend"><span style="--line:#93a5b9">0% annual</span><span style="--line:#72a7ff">3% annual</span><span style="--line:#35cfb7">5% annual</span><span style="--line:#f9b85d">Custom annual</span></div>
+    <p class="controlFlag" id="scenarioBasis" aria-live="polite">Scenario basis pending</p><div class="chartArea"><svg id="scenarioChart" viewBox="0 0 760 335" role="img" aria-label="Compare four salary growth scenarios over time"></svg></div>
+    <div class="tableScroll" style="max-height:240px"><table><thead><tr><th>Year</th><th>0%</th><th>3%</th><th>5%</th><th>Custom</th></tr></thead><tbody id="scenarioRows"></tbody></table></div>
+    <p class="small muted">All four scenarios use the same base salary and country inflation. If the selected comparison year exceeds the configured chart end, charts extend to show the selected year. Career events are excluded by default and can be explicitly included. Bonus payments are excluded so the lines compare recurring salary only. Values are modelled assumptions.</p>
+   </section>
+   <section class="panel">
+    <h2>Salary preservation calculator</h2><p class="small muted">What would your salary need to be to preserve the purchasing power of the base salary in the selected year?</p>
+    <div class="comparison"><div><div class="small muted">Required salary to keep pace with CPI</div><div class="figure" id="required">—</div></div><div><div class="small muted">Nominal earnings surplus / (shortfall)</div><div class="figure" id="gap">—</div></div></div>
+    <div class="barTrack"><div class="barFill" id="bar"></div></div><p class="small muted" id="interpretation" style="margin-bottom:0"></p>
+   </section>
+   <section class="panel foot"><h2>Understanding the model</h2>
+    <p><strong>Pay rise analysis</strong> evaluates a single annual salary review. Real pay rise = (1 + nominal pay rise) / (1 + inflation benchmark) − 1. Monthly and fortnightly increases are gross annual differences divided by 12 and 26; these are not take-home pay. Applying a rise to the projection assumes the same percentage repeats every year.</p>
+    <p><strong>Nominal salary</strong> grows annually at your selected salary-growth rate. <strong>Real salary</strong> converts that amount into base-year purchasing power using cumulative CPI inflation. The historical CPI series changes when you change countries; currencies are labels, not converted exchange rates.</p>
+    <p><strong>Required salary</strong> = base salary × cumulative CPI factor. <strong>Present value</strong> = selected nominal salary ÷ (1 + discount rate)<sup>years from base</sup>; this is a financial discounting measure, distinct from real purchasing power. For years before the base year, the inverse formula estimates a value compounded forward to the base year.</p>
+    <p><strong>Tax calculation controls:</strong> NZ IETC is only applied when you expressly confirm eligibility, and Australian Medicare single-person low-income thresholds use an editable 2025–26 reference as a proxy until 2026–27 values are verified. An arithmetic reconciliation does not certify payroll accuracy. Employer-paid KiwiSaver/superannuation is not a deduction from the employee gross salary. <a href="https://www.ird.govt.nz/ietc" target="_blank" rel="noopener noreferrer">NZ IETC eligibility guidance</a> · <a href="https://www.ato.gov.au/individuals-and-families/medicare-and-private-health-insurance/medicare-levy/medicare-levy-reduction/medicare-levy-reduction-for-low-income-earners" target="_blank" rel="noopener noreferrer">ATO Medicare thresholds</a>.</p>
+    <p><strong>Data integrity:</strong> Historical annual CPI growth comes from the World Bank where available. Only completed calendar years with valid returned observations count as actual; a missing completed year remains historical estimated. Cumulative CPI is classified independently from annual CPI, and any forward result is labelled forecast. Any missing years (including future periods) use your assumed annual inflation rate; strict mode suppresses incomplete historical purchasing power. Assumed observations are labelled <em>Assumption</em> or <em>Forecast</em>. If the CPI API cannot be reached, strict historical comparisons remain unavailable; forecast-only comparisons can still use the user-selected future inflation assumption. Illustrative mode clearly identifies assumed missing historical rates. Salary growth, career events and historical salaries are user assumptions, not country statistics; taxes are estimates using selected rules or a user rate. FX rates are not modelled.</p>
+    <p><strong>Release governance:</strong> v6.2 release candidate reviewed 21 November 2026 (NZ time). NZ/AU rate snapshot: 2026–27. Country-specific CPI must be checked on a live HTTPS deployment; refresh source data when using the model. Tax settings must be reviewed at least annually and after legislative changes.</p>
+    <p><strong>Historical sensitivity:</strong> A salary entered against an earlier base year is treated as an assumed salary at that date. Salary growth is hypothetical across the whole comparison period. This dashboard is educational, uses a separate 2026–27 tax snapshot on a separately entered salary rather than historical tax law and does not constitute individual financial or tax advice.</p>
+    <p>Source: <a href="https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG" rel="noopener noreferrer" target="_blank">World Bank — Inflation, consumer prices (annual %)</a> · <a href="https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api" rel="noopener noreferrer" target="_blank">World Bank Indicators API documentation</a>. Tax references: <a href="https://www.ird.govt.nz/income-tax/income-tax-for-individuals/tax-codes-and-tax-rates-for-individuals/tax-rates-for-individuals" rel="noopener noreferrer" target="_blank">NZ IRD</a>, <a href="https://www.ird.govt.nz/acclevy" rel="noopener noreferrer" target="_blank">NZ ACC levy</a>, <a href="https://www.ato.gov.au/tax-rates-and-codes/tax-rates-australian-residents" rel="noopener noreferrer" target="_blank">Australian ATO</a>. No sign-in, analytics, tracking or external JavaScript libraries.</p>
+   </section>
+  </main>
+ </div>
+</div>
+<script>
+
+'use strict';
+(()=>{
+const $=id=>document.getElementById(id);
+const meta={NZL:['NZD','en-NZ'],AUS:['AUD','en-AU'],USA:['USD','en-US'],GBR:['GBP','en-GB'],IND:['INR','en-IN'],CAN:['CAD','en-CA'],SGP:['SGD','en-SG'],JPN:['JPY','ja-JP'],DEU:['EUR','de-DE'],FRA:['EUR','fr-FR'],CHE:['CHF','de-CH'],ZAF:['ZAR','en-ZA'],ARE:['AED','en-AE'],MYS:['MYR','en-MY']};
+const keys=['ietcEligible','medicareThreshold','medicareBasis','taxSalary','taxYear','shareMode','historicalPolicy','retirementRate','studentLoan','medicareRate','otherDeductions','scenarioEvents','country','salary','base','year','growth','inflation','discount','end','raise','riseInflation','taxMode','taxRate','promotionYear','promotionPct','freezeYear','bonusPct','oneoffYear','oneoffAmount','careerEnabled','careerViewYear','targetSalary','targetYear','scenarioCustom','scenarioView'];
+const defaults={ietcEligible:'no',medicareThreshold:28011,medicareBasis:'single',taxSalary:100000,taxYear:'2026-27',shareMode:'sample',historicalPolicy:'strict',retirementRate:0,studentLoan:'no',medicareRate:2,otherDeductions:0,scenarioEvents:'no',country:'NZL',salary:100000,base:2000,year:2026,growth:0,inflation:3,discount:5,end:2050,raise:4,riseInflation:3,taxMode:'auto',taxRate:25,promotionYear:0,promotionPct:10,freezeYear:0,bonusPct:0,oneoffYear:0,oneoffAmount:0,careerEnabled:'yes',careerViewYear:2035,targetSalary:200000,targetYear:2040,scenarioCustom:4,scenarioView:'nominal'};
+const limits={medicareThreshold:[0,100000],taxSalary:[0,1e9],retirementRate:[0,30],medicareRate:[0,5],otherDeductions:[0,1e7],salary:[0,1e9],base:[1990,2060],year:[1990,2060],growth:[-20,40],inflation:[-10,50],discount:[0,40],end:[1990,2060],raise:[-20,100],riseInflation:[-10,50],taxRate:[0,70],promotionYear:[0,2060],promotionPct:[0,200],freezeYear:[0,2060],bonusPct:[0,100],oneoffYear:[0,2060],oneoffAmount:[-1e8,1e8],careerViewYear:[1990,2060],targetSalary:[0,1e9],targetYear:[1990,2060],scenarioCustom:[-20,40]};
+let data={},lastRows=[],loadState='loading',lastPublished=0,requestNumber=0,lastRejected=0,retrievedAt='';
+const bound=(n,a,b)=>Math.min(b,Math.max(a,Number.isFinite(n)?n:a));
+const enumKeys=['ietcEligible','medicareBasis','taxYear','shareMode','country','taxMode','careerEnabled','scenarioView','historicalPolicy','studentLoan','scenarioEvents'];const value=k=>enumKeys.includes(k)?$(k).value:Number($(k).value);
+function fillSelect(id,a,b,sel){const s=$(id);for(let y=a;y<=b;y++){const opt=document.createElement('option');opt.value=y;opt.textContent=y;if(y===sel)opt.selected=true;s.add(opt)}}
+fillSelect('base',1990,2060,defaults.base);fillSelect('year',1990,2060,defaults.year);fillSelect('end',1990,2060,defaults.end);for(const k of ['promotionYear','freezeYear','oneoffYear']){const o=document.createElement('option');o.value=0;o.textContent='None';$(k).appendChild(o);fillSelect(k,1990,2060,defaults[k]);}for(const k of ['careerViewYear','targetYear'])fillSelect(k,1990,2060,defaults[k]);
+function setState(state){for(const k of keys){let v=state[k]??defaults[k];if(k==='country'&&!meta[v])v=defaults.country;if(k==='taxMode'&&!['auto','custom'].includes(v))v=defaults.taxMode;if(k==='careerEnabled'&&!['yes','no'].includes(v))v=defaults.careerEnabled;if(k==='scenarioView'&&!['nominal','real'].includes(v))v=defaults.scenarioView;if(k==='historicalPolicy'&&!['strict','illustrative'].includes(v))v=defaults.historicalPolicy;if(k==='studentLoan'&&!['yes','no'].includes(v))v=defaults.studentLoan;if(k==='scenarioEvents'&&!['yes','no'].includes(v))v=defaults.scenarioEvents;if(k==='taxYear'&&v!=='2026-27')v=defaults.taxYear;if(k==='shareMode'&&!['sample','personal'].includes(v))v=defaults.shareMode;if(k==='medicareBasis'&&!['single','manual'].includes(v))v=defaults.medicareBasis;if(k==='ietcEligible'&&!['yes','no'].includes(v))v=defaults.ietcEligible;if(!enumKeys.includes(k))v=Number(v);$(k).value=v}}
+function readLink(){// Read fragments only; legacy query links are intentionally not restored for privacy.
+ const p=new URLSearchParams(location.hash.slice(1)),s={};for(const k of keys){if(!p.has(k))continue;s[k]=enumKeys.includes(k)?p.get(k):Number(p.get(k))}setState(s)}
+function getState(){return Object.fromEntries(keys.map(k=>[k,value(k)]))}
+function money(n,compact=false){const cc=meta[value('country')][0];let num=Number(n);if(!Number.isFinite(num))return '—';let v=compact&&Math.abs(num)>=1e6?(num/1e6).toFixed(2)+'m':compact&&Math.abs(num)>=1e3?(num/1e3).toFixed(1)+'k':Math.round(num).toLocaleString('en-AU');return cc+' '+v}
+function money2(n){const cc=meta[value('country')][0];return Number.isFinite(n)?cc+' '+n.toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2}):'—'}
+function pct(n){return (n>0?'+':'')+n.toFixed(1)+'%'}
+// CPI source classification: a published year is actual; future years are projections;
+// a gap before the latest published year is historical estimated (never actual).
+function getInflation(y){
+ // A calendar year must have finished before its CPI can qualify as a historical actual.
+ // A missing completed year is historical estimated, even if the API's latest observation is older.
+ const lastCompletedYear=new Date().getFullYear()-1;
+ const isCompleted=y<=lastCompletedYear;
+ const obs=data[y];
+ if(isCompleted&&loadState==='ok'&&Number.isFinite(obs))return{rate:obs/100,kind:'Historical actual',missingHistorical:false};
+ return{rate:value('inflation')/100,kind:isCompleted?'Historical estimated':'Forecast',missingHistorical:isCompleted};
+}
+function provenanceBetween(base,year){
+ let actual=0,estimated=0,forecast=0;
+ for(let y=Math.min(base,year)+1;y<=Math.max(base,year);y++){
+  const k=getInflation(y).kind;if(k==='Historical actual')actual++;else if(k==='Historical estimated')estimated++;else forecast++;
+ }
+ const kind=estimated?'Historical estimated'+(forecast?' + forecast':''):(forecast?(actual?'Mixed actual and forecast':'Forecast'):(actual?'Historical actual':'Base year'));
+ return{kind,actual,estimated,forecast,completeHistorical:estimated===0,forecastInvolved:forecast>0};
+}
+function historicalValid(start,end){if(value('historicalPolicy')==='illustrative')return true;for(let y=start;y<=end;y++)if(getInflation(y).missingHistorical)return false;return true}
+function realMoney(n,compact=false){return Number.isFinite(n)?money(n,compact):'Not verified'}
+function calculatePayRise(){
+ const current=value('salary'),raise=value('raise')/100,inf=value('riseInflation')/100;
+ const revised=current*(1+raise),annual=revised-current,real=(1+raise)/(1+inf)-1;
+ $('riseCurrent').textContent=money(current);
+ $('riseNew').textContent=money(revised);
+ $('riseAnnual').textContent=(annual>=0?'+':'−')+money(Math.abs(annual));
+ $('riseMonthly').textContent=(annual>=0?'+':'−')+money(Math.abs(annual/12));
+ $('riseFortnightly').textContent=(annual>=0?'+':'−')+money(Math.abs(annual/26));
+ $('riseReal').textContent=pct(real*100);$('riseReal').className='amount '+(real>0?'good':real<0?'bad':'');
+ $('riseMessage').textContent=real<-.00001?`Your proposed ${value('raise').toFixed(2)}% rise falls below the ${value('riseInflation').toFixed(2)}% inflation benchmark. Your purchasing power would decline by ${Math.abs(real*100).toFixed(2)}%. To preserve purchasing power you need at least a ${value('riseInflation').toFixed(2)}% nominal rise.`:real>.00001?`Your proposed ${value('raise').toFixed(2)}% rise exceeds the ${value('riseInflation').toFixed(2)}% inflation benchmark, improving purchasing power by ${(real*100).toFixed(2)}%.`:'Your proposed pay rise exactly preserves purchasing power at the selected inflation benchmark.';
+}
+
+// Tax rules are explicitly a 2026–27 snapshot; other jurisdictions use a transparent user assumption.
+function progressiveTax(income,brackets){let tax=0,last=0;for(const [upper,rate] of brackets){const part=Math.max(0,Math.min(income,upper)-last);tax+=part*rate;last=upper;if(income<=upper)break}return tax}
+function taxEstimate(gross){
+ gross=Math.max(0,gross);const country=value('country'),custom=value('taxMode')==='custom';
+ let incomeTaxBeforeOffset=0,taxOffset=0,levy=0,detail='';
+ if(!custom&&country==='NZL'){
+  incomeTaxBeforeOffset=progressiveTax(gross,[[15600,.105],[53500,.175],[78100,.30],[180000,.33],[Infinity,.39]]);
+  levy=Math.min(gross,156641)*.0175;
+  // IETC is contingent on residency, income sources and month-by-month eligibility.
+  // Never assume eligibility merely because gross income is within the earnings band.
+  const possibleIetc=gross>=24000&&gross<=66000?520:gross>66000&&gross<70000?520-(gross-66000)*.13:0;
+  taxOffset=value('ietcEligible')==='yes'?Math.min(incomeTaxBeforeOffset,Math.max(0,possibleIetc)):0;
+  detail='NZ 2026–27 resident rates; ACC 1.75% with NZ$156,641 cap. Student loan uses 12% above NZ$24,128 on primary salary; simplified annual estimate. IETC is applied only if eligibility is explicitly selected; it depends on income, residency, benefits and months eligible.';
+ }else if(!custom&&country==='AUS'){
+  incomeTaxBeforeOffset=progressiveTax(gross,[[18200,0],[45000,.15],[135000,.30],[190000,.37],[Infinity,.45]]);
+  // Australian low-income tax offset is non-refundable and cannot exceed the pre-offset income tax.
+  const possibleOffset=gross<=37500?700:gross<=45000?700-(gross-37500)*.05:gross<=66667?325-(gross-45000)*.015:0;
+  taxOffset=Math.min(incomeTaxBeforeOffset,Math.max(0,possibleOffset));
+  if(value('medicareBasis')==='single'){
+   // 2025-26 published single threshold is a user-editable PROXY for 2026-27,
+   // not an assertion that a 2026-27 Medicare threshold has been confirmed.
+   const threshold=value('medicareThreshold');
+   levy=gross<=threshold?0:Math.min(gross*.02,(gross-threshold)*.10);
+  }else levy=gross*value('medicareRate')/100;
+  detail='AU 2026–27 resident tax brackets plus low-income tax offset (LITO); Medicare '+(value('medicareBasis')==='single'?'estimated for a single resident without dependants using the EDITABLE 2025–26 threshold proxy (AUD '+value('medicareThreshold').toLocaleString('en-AU')+'); confirm the 2026–27 threshold with the ATO.':'uses your flat levy rate.')+' HELP, Medicare surcharge, family, senior and other personal circumstances remain excluded.';
+ }else{
+  incomeTaxBeforeOffset=gross*value('taxRate')/100;
+  detail='Custom effective-tax assumption only: assumed to include ordinary income tax and applicable ACC/Medicare levies (which are not added again). NZ student-loan repayments, retirement and other entered deductions are applied separately. It is not an official tax assessment.';
+ }
+ const incomeTax=incomeTaxBeforeOffset-taxOffset;
+ const retirement=gross*value('retirementRate')/100;
+ // Student-loan repayments are a separate payroll deduction and remain applicable under custom income-tax assumptions.
+ const student=(country==='NZL'&&value('studentLoan')==='yes')?Math.max(0,gross-24128)*.12:0;
+ const other=value('otherDeductions');
+ const tax=incomeTax+levy,net=gross-tax-retirement-student-other;
+ return{gross,incomeTaxBeforeOffset,taxOffset,incomeTax,levy,retirement,student,other,tax,net,valid:net>=-0.000001,detail};
+}
+function careerSalaryFor(year,growth,withEvents=value('careerEnabled')==='yes'){const base=value('base'),s=value('salary');let salary=s;if(year<base)return s*Math.pow(1+growth/100,year-base); // Retrospective years use annual growth ONLY; event controls require dates after base.
+ for(let y=base+1;y<=year;y++){
+  if(withEvents){
+   if(y!==value('freezeYear'))salary*=1+growth/100;
+   if(y===value('promotionYear'))salary*=1+value('promotionPct')/100;
+   if(y===value('oneoffYear')){salary+=value('oneoffAmount');if(salary<0)return NaN;}
+  }else salary*=1+growth/100;
+ }
+ return salary;
+}
+function updateTax(){
+ const salary=value('taxSalary'),newSalary=salary*(1+value('raise')/100),current=taxEstimate(salary),revised=taxEstimate(newSalary);
+ const valid=current.valid&&revised.valid;
+ $('taxGross').textContent=money2(salary);$('taxDeduct').textContent=money2(current.tax);
+ $('taxNet').textContent=valid?money2(current.net):'ERROR';$('taxMonth').textContent=valid?money2(current.net/12):'ERROR';$('taxNewNet').textContent=valid?money2(revised.net):'ERROR';
+ const diff=(revised.net-current.net)/12;$('taxIncrease').textContent=valid?((diff<0?'−':'+')+money2(Math.abs(diff))):'ERROR';$('taxIncrease').className='v '+(!valid||diff<0?'bad':'good');
+ const body=$('taxBreakdown');body.replaceChildren();const lines=[['Gross annual pay','gross',1],['Income tax before offsets','incomeTaxBeforeOffset',-1],['Income tax credits / offsets','taxOffset',1],['ACC / Medicare levy','levy',-1],['Employee retirement deduction','retirement',-1],['NZ student-loan deduction','student',-1],['Other annual deductions','other',-1],['Estimated take-home','net',1]];
+ for(const [label,key,sign] of lines){const tr=document.createElement('tr');for(const t of [label,(sign<0?'−':'')+money2(current[key]),(sign<0?'−':'')+money2(revised[key])]){const td=document.createElement('td');td.textContent=t;tr.appendChild(td)}body.appendChild(tr)}
+ const balance=r=>r.gross-r.incomeTax-r.levy-r.retirement-r.student-r.other-r.net;
+ const reconciles=Math.abs(balance(current))<.01&&Math.abs(balance(revised))<.01;
+ const status=valid&&reconciles?'PASS':'ERROR';$('taxValidation').textContent=status+' — '+(valid?'Arithmetic reconciliation only (tolerance 1 cent). Tax figures remain estimates, not independently verified payroll outcomes.':'Deductions exceed gross or the reconciliation failed. Net pay is suppressed; correct the inputs.');
+ $('taxValidation').className='controlFlag statusControl '+(status==='PASS'?'good':'bad');
+ $('taxNote').textContent='Tax year 2026–27 only (NZ tax year ends 31 March 2027; AU ends 30 June 2027); this is an independent salary entered for tax estimation, NOT historical payroll and NOT an automatic tax forecast. '+current.detail+' Other deductions are annual after-tax assumptions. Excludes other credits, surcharges, individual circumstances and exact pay-period rules. Published country rates apply only for the specified tax snapshot; the Australian single-person Medicare threshold remains a user-editable proxy.';
+ return valid&&reconciles;
+}
+function updateCareer(){const year=value('careerViewYear'),salary=careerSalaryFor(year,value('growth')),bonus=value('careerEnabled')==='yes'&&year>value('base')?salary*value('bonusPct')/100:0;
+ $('careerSalary').textContent=money(salary);$('careerBonus').textContent=money(bonus);$('careerTotal').textContent=money(salary+bonus);
+}
+function updateTarget(){const years=value('targetYear')-value('base'),start=value('salary'),target=value('targetSalary');
+ const projected=careerSalaryFor(value('targetYear'),value('growth')),$gap=target-projected;
+ $('targetActual').textContent=money(projected);$('targetGap').textContent=($gap<0?'−':'+')+money(Math.abs($gap));
+ if(years<=0||start<=0||target<=0){$('targetBasis').textContent='Target planner unavailable: the target must be later than the base year, with positive starting and goal salaries.';$('targetGrowth').textContent='N/A';$('targetNote').textContent='Choose a target year later than the base year, with both salaries greater than zero.';return}
+ const events=value('careerEnabled')==='yes';$('targetBasis').textContent=`Target calculation: ${events?'career events included':'pure annual growth only'}; salary base year ${value('base')}; bonuses excluded.`;
+ const salaryAt=g=>careerSalaryFor(value('targetYear'),g,events);
+ let annual=NaN,solveStatus='';
+ if(!events){annual=(Math.pow(target/start,1/years)-1)*100;if(annual < -20 || annual > 40){solveStatus='Target requires annual growth outside the supported −20% to 40% range.';annual=NaN;}}
+ else{
+  let low=-20,high=40;const fl=salaryAt(low),fh=salaryAt(high);
+  if((Number.isFinite(fl)&&fl>target)||!Number.isFinite(fh)||fh<target){
+   solveStatus='Target is outside the supported −20% to 40% annual growth search range with the selected career events.';
+  }else{
+   // An infeasible negative salary generated by a trial annual-growth rate is below a
+   // positive target, NOT a valid numeric solution. Do not let NaN corrupt bisection.
+   for(let i=0;i<90;i++){
+    const mid=(low+high)/2,trial=salaryAt(mid);
+    if(!Number.isFinite(trial)||trial<target)low=mid;else high=mid;
+   }
+   annual=(low+high)/2;
+  }
+ }
+ if(Number.isFinite(annual)&&Math.abs(annual)<0.000001)annual=0;$('targetGrowth').textContent=Number.isFinite(annual)?((annual>0?'+':'')+annual.toFixed(4)+'%'):'Outside range';
+ $('targetNote').textContent=solveStatus||(Number.isFinite(annual)?`A modelled annual increase of ${annual.toFixed(4)}% is required over ${years} years ${events?'including the selected career events':'without career events'}. Display precision is four decimal places; bonuses are excluded.`:'An annual rate could not be determined.');
+}
+function scenarioDraw(factors){$('scenarioBasis').textContent=`SCENARIO BASIS: ${value('scenarioEvents')==='yes'?'Career promotions, freezes and adjustments included in all paths.':'Pure annual growth; promotions, freezes and adjustments excluded.'} Main projection: ${value('careerEnabled')==='yes'?'career events ON':'career events OFF'}. ${value('scenarioView')==='real'?'Real values use CPI provenance rules.':'Nominal salary only.'}`;const svg=$('scenarioChart');svg.replaceChildren();const W=760,H=335,L=82,R=17,T=16,B=43,w=W-L-R,h=H-T-B;
+ const series=[0,3,5,value('scenarioCustom')].map(g=>factors.map(f=>{const nominal=careerSalaryFor(f.year,g,value('scenarioEvents')==='yes');return {year:f.year,value:value('scenarioView')==='real'?(f.calculable?nominal/f.factor:NaN):nominal}}));
+ const ymax=Math.max(1,...series.flat().map(v=>v.value).filter(Number.isFinite))*1.13,X=i=>L+(i/(factors.length-1||1))*w,Y=v=>T+h-v/ymax;
+ for(let i=0;i<=4;i++){const yy=T+i*h/4;node('line',{x1:L,y1:yy,x2:W-R,y2:yy,stroke:'#2b3d55'},svg);node('text',{x:L-9,y:yy+4,fill:'#9eafc6','font-size':11,'text-anchor':'end'},svg,money(ymax*(1-i/4),true))}
+ const colours=['#93a5b9','#72a7ff','#35cfb7','#f9b85d'];
+ series.forEach((path,ix)=>node('path',{d:path.map((v,i)=>Number.isFinite(v.value)?((i&&Number.isFinite(path[i-1].value))?'L':'M')+X(i).toFixed(2)+' '+Y(v.value).toFixed(2):'').join(' '),fill:'none',stroke:colours[ix],'stroke-width':ix===3?3.3:2.6,'stroke-linecap':'round'},svg));
+ const step=Math.max(1,Math.ceil(factors.length/8));factors.forEach((f,i)=>{if(i%step===0||i===factors.length-1)node('text',{x:X(i),y:H-13,'text-anchor':'middle',fill:'#9eafc6','font-size':11},svg,f.year)});
+ const body=$('scenarioRows');body.replaceChildren();for(let i=0;i<factors.length;i++){const tr=document.createElement('tr');for(const entry of [factors[i].year,...series.map(p=>realMoney(p[i].value))]){const td=document.createElement('td');td.textContent=entry;tr.appendChild(td)}body.appendChild(tr)}
+}
+
+// Centralised validation: reject out-of-range/blank inputs instead of silently clamping.
+function validateInputs(){
+ const errors=[];
+ for(const [k,[lo,hi]] of Object.entries(limits)){
+  // Hidden/inactive tax assumptions must not block an unrelated calculation.
+  if((k==='medicareRate'&&(value('country')!=='AUS'||value('taxMode')!=='auto'||value('medicareBasis')!=='manual'))||(k==='medicareThreshold'&&(value('country')!=='AUS'||value('taxMode')!=='auto'||value('medicareBasis')!=='single'))||(k==='taxRate'&&value('taxMode')!=='custom'&&['NZL','AUS'].includes(value('country')))){ $(k).setAttribute('aria-invalid','false');continue;}
+  const el=$(k),str=el.value.trim(),n=Number(str);
+  const invalid=!str||!Number.isFinite(n)||n<lo||n>hi;
+  el.setAttribute('aria-invalid',String(invalid));
+  if(invalid)errors.push(`${el.labels?.[0]?.textContent||k}: enter a number between ${lo} and ${hi}.`);
+ }
+ if(value('end')<value('base'))errors.push('CHART END YEAR must not precede SALARY BASE YEAR.');
+ const base=value('base');
+ if(value('careerEnabled')==='yes'||value('scenarioEvents')==='yes'){
+  for(const k of ['promotionYear','freezeYear','oneoffYear']){
+   const n=value(k);if(n&&n<=base){errors.push(`${$(k).labels?.[0]?.textContent||k}: event year must be later than the base year (${base}); choose None or a later year.`);$(k).setAttribute('aria-invalid','true')}
+  }
+  const eventYear=value('oneoffYear');
+  if(eventYear>base&&value('oneoffAmount')<0&&Number.isFinite(value('oneoffAmount'))){
+   const rates=[...(value('careerEnabled')==='yes'?[value('growth')]:[]),...(value('scenarioEvents')==='yes'?[0,3,5,value('scenarioCustom')]:[])];
+   if(rates.some(g=>!Number.isFinite(careerSalaryFor(eventYear,g,true)))){
+    errors.push('PERMANENT SALARY ADJUSTMENT would result in negative recurring salary for an active growth scenario. Reduce the deduction or disable those events.');
+    $('oneoffAmount').setAttribute('aria-invalid','true');
+   }
+  }
+ }
+ // The optional target planner handles an earlier/same target year locally as N/A, not a global error.
+ const status=$('validationBanner');status.hidden=errors.length===0;status.textContent=errors.length?'MODEL INPUT ERROR — '+errors.join('\n'):'';
+ $('share').disabled=errors.length>0;$('csv').disabled=errors.length>0;
+ return errors;
+}
+function suppressOutputs(){
+ for(const id of ['nominal','real','change','pv','required','gap','targetGrowth','targetActual','targetGap','careerSalary','careerBonus','careerTotal','riseNew','riseAnnual','riseMonthly','riseFortnightly','riseReal','taxNet','taxMonth','taxNewNet','taxIncrease'])$(id).textContent='Invalid input';
+ $('chart').replaceChildren();$('scenarioChart').replaceChildren();$('rows').replaceChildren();$('scenarioRows').replaceChildren();lastRows=[];
+}
+function model(){
+ if(validateInputs().length){suppressOutputs();return;}calculatePayRise();const taxOk=updateTax();updateCareer();updateTarget();
+ if(!taxOk){$('share').disabled=true;$('csv').disabled=true;}
+ const s=getState(),base=s.base,sel=s.year,end=Math.max(s.end,base),growth=s.growth/100,discount=s.discount/100;
+ let cpi={[base]:1};const min=Math.min(base,sel),max=Math.max(end,sel);
+ for(let y=base+1;y<=max;y++)cpi[y]=cpi[y-1]*(1+getInflation(y).rate);
+ for(let y=base-1;y>=min;y--)cpi[y]=cpi[y+1]/(1+getInflation(y+1).rate);
+ const rows=[];for(let y=min;y<=max;y++){
+  const nominal=careerSalaryFor(y,s.growth);
+  const cpiComplete=y>=base?historicalValid(base+1,y):historicalValid(y+1,base);
+  const factorSafe=Number.isFinite(cpi[y])&&cpi[y]>0&&Number.isFinite(nominal)&&nominal>=0&&Number.isFinite(s.salary*cpi[y]);
+  const result=factorSafe?nominal/cpi[y]:NaN;
+  const valid=cpiComplete&&factorSafe&&Number.isFinite(result)&&result>=0;
+  const real=valid?result:NaN;
+  const f=getInflation(y),prov=provenanceBetween(base,y);rows.push({year:y,nominal,real,factor:cpi[y],verified:valid&&prov.completeHistorical&&!prov.forecastInvolved,calculable:valid,provenance:prov.kind,prov,rate:f.rate,kind:f.kind});
+ }
+ lastRows=rows;const r=rows.find(t=>t.year===sel),required=r.calculable?s.salary*r.factor:NaN,gap=r.calculable?r.nominal-required:NaN;
+ $('kYear1').textContent=sel;$('kYear2').textContent=sel;$('nominal').textContent=money(r.nominal,true);$('real').textContent=realMoney(r.real,true);
+ $('real').parentElement.querySelector('.hint').textContent='In base-year purchasing power'+(s.historicalPolicy==='illustrative'&&r.prov.estimated>0?' · Illustrative (assumed historical CPI)':'');
+ const change=!Number.isFinite(r.real)?NaN:s.salary===0?0:(r.real/s.salary-1)*100;$('change').textContent=Number.isFinite(change)?pct(change):'Not verified';$('change').className='value '+(Number.isFinite(change)?(change<-.01?'bad':change>.01?'good':''):'');
+ const pv=r.nominal/Math.pow(1+discount,sel-base);$('pv').textContent=money(pv,true);
+ $('required').textContent=r.calculable?money(required):'Not available';$('gap').textContent=r.calculable?(gap<0?'−':'+')+money(Math.abs(gap)):'Not verified';$('gap').className='figure '+(r.calculable?(gap<0?'bad':'good'):'');
+ $('bar').parentElement.hidden=!r.calculable; // Hide the entire preservation track, not only its fill, when results are unavailable.
+ $('bar').style.width=r.calculable?(required>0?bound(100*r.nominal/required,0,100):100)+'%':'0%';$('bar').style.background=r.calculable?(gap<0?'var(--red)':'var(--teal)'):'var(--muted)';$('bar').setAttribute('aria-label',r.calculable?'Salary as a percentage of CPI-preserving salary':'Unavailable: historical CPI verification failed');
+ $('interpretation').textContent=!r.calculable?(s.historicalPolicy==='strict'&&r.prov.estimated>0?'Not verified: a required historical CPI rate is missing. The purchasing-power comparison and preservation bar are unavailable in Strict mode.':'Purchasing-power comparison is unavailable for the selected inputs.'):gap<-.01?`Projected salary is ${money(-gap)} below the amount needed to preserve base-year purchasing power.`:gap>.01?`Projected salary is ${money(gap)} above the inflation-adjusted benchmark.`:'Projected salary matches the inflation-adjusted benchmark.';
+ if(r.calculable&&s.historicalPolicy==='illustrative'&&r.prov.estimated>0)$('interpretation').textContent+=' ILLUSTRATIVE — one or more missing historical CPI rates were replaced by your inflation assumption.';
+ $('chartSubtitle').textContent=`Base ${base} · ${meta[s.country][0]} · ${min}–${max} shown · Selected ${sel}`+(max>end?' · extended to show selected year':'');
+ $('slider').value=sel;$('sliderText').textContent=sel;
+ // Selected-interval CPI messages: distinguish missing historical evidence from genuine forecasts.
+ // This block changes presentation only; the salary, CPI factor and validation calculations above are unchanged.
+ const actual=r.prov.actual,missing=r.prov.estimated,forward=r.prov.forecast;
+ const strictMissing=s.historicalPolicy==='strict'&&missing>0;
+ const illustrativeMissing=s.historicalPolicy==='illustrative'&&missing>0;
+ const publishedFacts=`${actual} published CPI rate(s) used in the selected base-to-comparison interval.`;
+ const fetchDetails=loadState==='ok'?` Latest available data year: ${lastPublished}. Retrieved: ${retrievedAt}. Rejected source records: ${lastRejected}.`:'';
+ const forecastNotice=forward>0?` ${forward} forecast year(s) use your ${s.inflation}% annual inflation assumption.`:'';
+ if(strictMissing){
+  $('dataDetails').textContent='Historical CPI is missing for this comparison. Strict mode does not estimate missing historical rates.'+
+   (loadState==='error'?' The live CPI request failed; historical comparisons cannot be verified.':loadState==='loading'?' Historical CPI is still loading.':'')+
+   ` ${publishedFacts} ${missing} missing historical rate(s).`+forecastNotice+fetchDetails;
+  $('cpiWarning').textContent='NOT VERIFIED: Historical CPI is missing. Strict mode suppresses the affected real salary, preservation benchmark and gap.'+
+   (loadState==='error'?' Live CPI request failed.':'')+forecastNotice;
+  $('provenanceControl').textContent=`Selected year ${sel}: Not verified — Historical estimated (${missing} missing historical CPI rate(s)). Historical actual ${actual} year(s); historical estimated ${missing}; forecast ${forward}.`;
+ }else if(illustrativeMissing){
+  $('dataDetails').textContent=(loadState==='error'?'Live CPI request failed. ':'')+
+   `ILLUSTRATIVE: ${missing} missing historical CPI rate(s) replaced by your ${s.inflation}% annual assumption. ${publishedFacts}`+forecastNotice+fetchDetails;
+  $('cpiWarning').textContent=`ILLUSTRATIVE MODE: ${missing} missing historical CPI rate(s) were substituted using your ${s.inflation}% assumed annual inflation. The resulting purchasing-power figures, required salary and shortfall are illustrative.`+forecastNotice;
+  $('provenanceControl').textContent=`Selected year ${sel}: ${r.provenance} — ILLUSTRATIVE (${missing} assumed historical rate(s)). Historical actual ${actual} year(s); historical estimated ${missing}; forecast ${forward}.`;
+ }else{
+  const forecastOnly=forward>0&&actual===0;
+  const noInterval=actual===0&&forward===0;
+  if(loadState==='error'){
+   $('dataDetails').textContent=forecastOnly?
+    `Live CPI request failed. This comparison is forecast-only: ${forward} future CPI rate(s) use your ${s.inflation}% assumed annual inflation. No historical CPI rate is needed for this comparison.`:
+    'Live CPI request failed. This is a base-year-only comparison; no historical CPI rate is needed.';
+  }else if(loadState==='loading'){
+   $('dataDetails').textContent=forecastOnly?
+    `Loading historical CPI. This comparison is forecast-only and uses your ${s.inflation}% annual inflation assumption.`:
+    'Connecting to the World Bank API…';
+  }else{
+   $('dataDetails').textContent=`${publishedFacts} Historical coverage is complete for this comparison; no missing historical rate was estimated.`+forecastNotice+fetchDetails;
+  }
+  $('cpiWarning').textContent=forecastOnly?
+   `FORECAST-ONLY COMPARISON: future purchasing power uses your ${s.inflation}% annual inflation assumption; no missing historical CPI was estimated.`:
+   noInterval?'BASE YEAR: no cumulative CPI interval is required for the selected comparison.':
+   `PUBLISHED HISTORICAL CPI: all ${actual} required historical annual rate(s) are present; none was estimated.`+forecastNotice;
+  $('provenanceControl').textContent=`Selected year ${sel}: ${r.provenance}${r.calculable?' — calculated':' — unavailable'}. Historical actual ${actual} year(s); historical estimated ${missing}; forecast ${forward}.`;
+ }
+
+ draw(rows.filter(t=>t.year>=min&&t.year<=max),sel);table(rows,sel);scenarioDraw(rows.filter(t=>t.year>=base&&t.year<=max));
+}
+function node(name,attrs,parent,content){const el=document.createElementNS('http://www.w3.org/2000/svg',name);Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,String(v)));if(content!==undefined)el.textContent=content;parent.appendChild(el);return el}
+function draw(rows,sel){const svg=$('chart');svg.replaceChildren();if(!rows.length)return;
+ const W=760,H=350,L=83,R=19,T=18,B=47,plotW=W-L-R,plotH=H-T-B;
+ const max=Math.max(1,...rows.flatMap(r=>[r.nominal,r.real]).filter(Number.isFinite))*1.16;
+ const Y=n=>T+plotH*(1-n/max),X=i=>L+(i+.5)*plotW/rows.length;
+ for(let i=0;i<=4;i++){const yy=T+i*plotH/4;node('line',{x1:L,y1:yy,x2:W-R,y2:yy,stroke:'#2b3d55','stroke-width':1},svg);node('text',{x:L-9,y:yy+4,fill:'#9eafc6','font-size':11,'text-anchor':'end'},svg,money(max*(1-i/4),true))}
+ const width=Math.max(2,Math.min(20,.65*plotW/rows.length));
+ rows.forEach((r,i)=>{node('rect',{x:X(i)-width/2,y:Y(r.nominal),width,height:Math.max(0,T+plotH-Y(r.nominal)),rx:Math.min(3,width/3),fill:r.year===sel?'#f9b85d':'#72a7ff',opacity:r.year===sel?1:.8},svg)});
+ node('path',{d:rows.map((r,i)=>Number.isFinite(r.real)?((i&&Number.isFinite(rows[i-1].real))?'L':'M')+X(i).toFixed(2)+' '+Y(r.real).toFixed(2):'').join(' '),stroke:'#35cfb7','stroke-width':3,fill:'none','stroke-linecap':'round','stroke-linejoin':'round'},svg);
+ const idx=rows.findIndex(r=>r.year===sel);if(idx>=0&&Number.isFinite(rows[idx].real)){node('line',{x1:X(idx),x2:X(idx),y1:T,y2:T+plotH,stroke:'#f9b85d','stroke-dasharray':'5 5'},svg);node('circle',{cx:X(idx),cy:Y(rows[idx].real),r:5.5,fill:'#35cfb7',stroke:'#fff','stroke-width':2},svg)}
+ const step=Math.max(1,Math.ceil(rows.length/9));rows.forEach((r,i)=>{if(i%step===0||i===rows.length-1)node('text',{x:X(i),y:H-19,fill:'#9eafc6','font-size':11,'text-anchor':'middle'},svg,r.year)});
+ const describe=r=>$('hover').textContent=`${r.year}  |  Nominal: ${money(r.nominal)}  |  Real: ${realMoney(r.real)}  |  ${r.provenance}`;
+ describe(rows[idx]||rows.at(-1));
+ function hit(e){const rect=svg.getBoundingClientRect(),pos=(e.clientX-rect.left)*W/rect.width;return rows[Math.floor(bound((pos-L)/plotW*rows.length,0,rows.length-0.00001))]}
+ svg.onpointermove=e=>describe(hit(e));svg.onpointerleave=()=>describe(rows[idx]||rows.at(-1));svg.onclick=e=>{$('year').value=hit(e).year;model()};svg.setAttribute('tabindex','0');svg.setAttribute('aria-label','Nominal salary columns and real salary line. Use left and right arrow keys to change selected year.');svg.onkeydown=e=>{if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight'&&e.key!=='Home'&&e.key!=='End')return;e.preventDefault();const here=rows.findIndex(r=>r.year===value('year'));const ix=e.key==='Home'?0:e.key==='End'?rows.length-1:Math.min(rows.length-1,Math.max(0,(here<0?0:here)+(e.key==='ArrowLeft'?-1:1)));$('year').value=rows[ix].year;model();};svg.style.cursor='crosshair';
+}
+function table(rows,sel){const tbody=$('rows');tbody.replaceChildren();for(const r of rows){const tr=document.createElement('tr');if(r.year===sel)tr.className='selected';for(const v of [r.year,money(r.nominal),realMoney(r.real),(r.rate*100).toFixed(2)+'%',r.kind,r.provenance]){const td=document.createElement('td');td.textContent=v;tr.appendChild(td)}tr.addEventListener('click',()=>{$('year').value=r.year;model()});tbody.appendChild(tr)}}
+function status(text,cls){$('status').textContent=text;$('status').className='status '+cls}
+async function loadCpi(){const req=++requestNumber,cc=value('country');loadState='loading';status('Loading historical CPI…','');model();
+ const url=`https://api.worldbank.org/v2/country/${encodeURIComponent(cc)}/indicator/FP.CPI.TOTL.ZG?format=json&per_page=300&date=1990:2060`;
+ const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),12000);
+ try{const resp=await fetch(url,{signal:controller.signal});if(!resp.ok)throw new Error(`HTTP ${resp.status}`);const json=await resp.json();if(!Array.isArray(json)||!Array.isArray(json[1]))throw new Error('Invalid World Bank response');
+  const obj={};let rejected=0;const completedYear=new Date().getFullYear()-1;
+  for(const rec of json[1]){
+   const y=Number(rec.date),v=Number(rec.value),recordCountry=rec.countryiso3code,recordIndicator=rec.indicator?.id;
+   if(rec.value===null||rec.value===undefined)continue;
+   if(!Number.isInteger(y)||y<1990||y>completedYear||!Number.isFinite(v)||v<=-100||recordCountry!==cc||recordIndicator!=='FP.CPI.TOTL.ZG'){rejected++;continue}
+   obj[y]=v;
+  }
+  if(Object.keys(obj).length===0)throw new Error('No valid CPI records');if(req!==requestNumber)return;
+  data=obj;lastRejected=rejected;retrievedAt=new Date().toISOString().slice(0,16)+' UTC';lastPublished=Math.max(...Object.keys(obj).map(Number));loadState='ok';status(`● CPI published through ${lastPublished}${rejected?' · '+rejected+' rejected':''}`,'good');
+ }catch(e){if(req!==requestNumber)return;data={};lastPublished=0;lastRejected=0;retrievedAt='';loadState='error';status('○ Scenario mode (CPI unavailable)','bad');}
+ finally{clearTimeout(timeout);if(req===requestNumber)model()}
+}
+for(const k of keys){$(k).addEventListener('input',()=>{if(k==='country'){loadCpi();return}if(k==='base'&&value('end')<value('base'))$('end').value=value('base');model()})}
+// Mobile: collapse the long assumption list initially so KPIs remain in the first viewport.
+// Desktop: keep every assumption visible. The user can expand the mobile controls at any time.
+const assumptionToggle=$('assumptionToggle'),assumptionsContent=$('assumptionsContent');
+let lastMobileLayout=null;
+function adaptAssumptionsLayout(){
+ const mobile=window.matchMedia('(max-width:730px)').matches;
+ if(mobile===lastMobileLayout)return;
+ lastMobileLayout=mobile;
+ assumptionToggle.hidden=!mobile;
+ assumptionsContent.hidden=mobile;
+ assumptionToggle.setAttribute('aria-expanded',String(!mobile));
+ assumptionToggle.textContent=mobile?'Show controls':'Hide controls';
+}
+assumptionToggle.onclick=()=>{const expanded=assumptionsContent.hidden;assumptionsContent.hidden=!expanded;assumptionToggle.setAttribute('aria-expanded',String(expanded));assumptionToggle.textContent=expanded?'Hide controls':'Show controls';};
+window.addEventListener('resize',adaptAssumptionsLayout);
+adaptAssumptionsLayout();
+$('slider').oninput=()=>{$('year').value=$('slider').value;model()};
+$('chartMode').onclick=()=>{$('chartPanel').classList.remove('hidden');$('tablePanel').classList.add('hidden');$('chartMode').classList.add('active');$('tableMode').classList.remove('active');$('chartMode').setAttribute('aria-pressed','true');$('tableMode').setAttribute('aria-pressed','false')};
+$('tableMode').onclick=()=>{$('chartPanel').classList.add('hidden');$('tablePanel').classList.remove('hidden');$('tableMode').classList.add('active');$('chartMode').classList.remove('active');$('chartMode').setAttribute('aria-pressed','false');$('tableMode').setAttribute('aria-pressed','true')};
+$('refreshBtn').onclick=loadCpi;
+$('applyRaise').onclick=()=>{const rate=value('raise');const message=$('applyRaiseNotice');if(!Number.isFinite(rate)||rate<limits.growth[0]||rate>limits.growth[1]){message.textContent=`The proposed one-off pay rise is valid, but ${Number.isFinite(rate)?rate+'%':'this input'} is outside the supported recurring growth range (−20% to +40%). Your salary projection has not changed.`;message.className='helper bad';return;}message.textContent='';$('growth').value=rate;model();$('applyRaise').textContent='Applied to salary projection ✓';setTimeout(()=>{$('applyRaise').textContent='Use pay rise as annual salary growth ↗'},1800)};
+$('reset').onclick=()=>{const cleanUrl=location.href.split(/[?#]/)[0];try{history.replaceState(null,'',cleanUrl)}catch(e){/* Embedded previews may not permit history mutation. */}setState(defaults);$('applyRaiseNotice').textContent='';loadCpi()};
+$('share').onclick=async()=>{
+ if(validateInputs().length||!taxEstimate(value('taxSalary')).valid||!taxEstimate(value('taxSalary')*(1+value('raise')/100)).valid){alert('Resolve model or tax validation errors before sharing.');return}
+ const raw=getState();let shareState;
+ if(value('shareMode')==='personal'){
+  if(!confirm('This link will disclose your entered salary, target salary, tax salary, deductions and career figures to everyone who receives it. Continue?'))return;
+  shareState={...raw};
+ }else{
+  // Explicit allow-list. No salary, pay rise, retirement, loan, tax or other private inputs.
+  const safeKeys=['country','base','year','end','growth','inflation','discount','historicalPolicy','scenarioView','scenarioCustom'];
+  shareState={...Object.fromEntries(safeKeys.map(k=>[k,raw[k]])),shareMode:'sample'};
+ }
+ const u=new URL(location.href);u.search='';u.hash=new URLSearchParams(shareState).toString();const str=u.toString();
+ if(u.protocol==='file:'){alert('A local file link is not a public website address. Publish to Netlify or GitHub Pages before sharing.');return}
+ try{if(navigator.share&&/^https?:$/.test(u.protocol)){await navigator.share({title:'Salary & Purchasing Power Dashboard',text:'Explore this illustrative salary scenario',url:str});return}}catch(e){if(e.name==='AbortError')return}
+ try{await navigator.clipboard.writeText(str);const b=$('share');b.textContent='Link copied ✓';setTimeout(()=>b.textContent='Share scenario',2200)}catch(e){window.prompt('Copy scenario link:',str)}
+};
+$('csv').onclick=()=>{
+ if(validateInputs().length||!taxEstimate(value('taxSalary')).valid||!taxEstimate(value('taxSalary')*(1+value('raise')/100)).valid){alert('Resolve validation errors before exporting.');return}
+ const s=getState();
+ const header=['Country','Currency','Base year','Year','Nominal salary','Real salary (base-year currency)','Annual bonus','Total gross earnings','Inflation rate %','Annual CPI source','Cumulative CPI factor','Cumulative CPI classification','Historical actual years','Historical estimated years','Forecast years','Historical CPI complete','Real calculation available','Historical CPI policy','Tax data treatment','NZ IETC eligibility selection','AU Medicare single threshold proxy AUD','Annual salary growth assumption %','Forecast inflation assumption %','Discount rate %','Career events applied to projection','Promotion year','Promotion increase %','Freeze year','Permanent salary adjustment year','Permanent salary adjustment amount','Annual bonus rate %','Data retrieved UTC','CPI series'];
+ const body=lastRows.map(r=>{
+  const bonus=value('careerEnabled')==='yes'&&r.year>s.base?r.nominal*value('bonusPct')/100:0;
+  return[s.country,meta[s.country][0],s.base,r.year,r.nominal.toFixed(2),Number.isFinite(r.real)?r.real.toFixed(2):'UNAVAILABLE',bonus.toFixed(2),(r.nominal+bonus).toFixed(2),(r.rate*100).toFixed(4),r.kind,r.calculable?r.factor.toFixed(8):'UNAVAILABLE',r.provenance,r.prov.actual,r.prov.estimated,r.prov.forecast,r.prov.completeHistorical?'Yes':'No',r.calculable?'Yes':'No',s.historicalPolicy,'Tax NOT estimated for annual projection; tax calculator uses independent gross salary and 2026-27 rules only',s.ietcEligible,s.medicareThreshold,s.growth,s.inflation,s.discount,s.careerEnabled,s.promotionYear||'None',s.promotionPct,s.freezeYear||'None',s.oneoffYear||'None',s.oneoffAmount,s.bonusPct,retrievedAt||'Not available','World Bank / FP.CPI.TOTL.ZG'];
+ });
+ const escape=v=>'"'+String(v).replaceAll('"','""')+'"';const csv=[header,...body].map(r=>r.map(escape).join(',')).join('\r\n');const blob=new Blob(['\ufeff',csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`salary-purchasing-power-v6-2-${s.country}-${Math.min(s.base,s.year)}-${Math.max(s.end,s.year)}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)
+};
+readLink();model();loadCpi();
+})();
+</script>
+</body>
+</html>
